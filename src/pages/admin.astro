@@ -1,25 +1,15 @@
 ---
-import "../input.css";
-import "../output.css";
-import Navbar from "../components/navbar.astro";
 import StringInput from "../components/inputs/StringInput.astro";
 import SelectInput from "../components/inputs/SelectInput.astro";
 import BooleanInput from "../components/inputs/BooleanInput.astro";
+import Layout from "../layouts/Layout.astro";
 
 import { getSettings } from "../util/importSettings.js";
 const settings = getSettings();
 ---
 
-<html data-theme="dark">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="description" content="Astro description" />
-    <meta name="viewport" content="width=device-width" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="generator" content={Astro.generator} />
-  </head>
-  <Navbar />
-  <div class="flex flex-col items-center">
+<Layout>
+  <div>
     <form id="admin-form">
       <!-- Map Settings to inputs -->
       {
@@ -65,39 +55,37 @@ const settings = getSettings();
 
       <button class="btn btn-primary" type="submit">Submit</button>
     </form>
+
+    <script>
+      import { initialize } from "../util/initialize.js";
+
+      initialize();
+
+      // Form Handling
+      document
+        .getElementById("admin-form")
+        .addEventListener("submit", async (e) => {
+          e.preventDefault();
+
+          const formData = new FormData(e.target);
+          const data = Object.fromEntries(formData.entries());
+
+          try {
+            const response = await fetch("/api/form", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify(data),
+            });
+
+            const result = await response.json();
+            alert(result.message);
+          } catch (error) {
+            console.error(error);
+            alert("An error occurred");
+          }
+        });
+    </script>
   </div>
-
-  <script>
-    import { initialize } from "../util/initialize.js";
-
-    initialize();
-
-    // Form Handling
-    document
-      .getElementById("admin-form")
-      .addEventListener("submit", async (e) => {
-        e.preventDefault();
-
-        const formData = new FormData(e.target);
-        const data = Object.fromEntries(formData.entries());
-
-        try {
-          const response = await fetch("/api/form", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(data),
-          });
-
-          const result = await response.json();
-          alert(result.message);
-        } catch (error) {
-          console.error(error);
-          alert("An error occurred");
-        }
-      });
-  </script>
-
-
-</html>
+</Layout>
