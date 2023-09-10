@@ -54,7 +54,10 @@ const settings = getSettings();
       })
     }
 
-    <button class="btn btn-primary mt-6" type="submit">Submit</button>
+    <!-- Required data-astro-reload to work with View Transitions -->
+    <button class="btn btn-primary mt-6" type="submit" data-astro-reload
+      >Submit</button
+    >
     <script>
       import { initialize } from "../util/initialize.js";
 
