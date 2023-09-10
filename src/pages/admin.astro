@@ -1,0 +1,103 @@
+---
+import "../input.css";
+import "../output.css";
+import Navbar from "../components/navbar.astro";
+import StringInput from "../components/inputs/StringInput.astro";
+import SelectInput from "../components/inputs/SelectInput.astro";
+import BooleanInput from "../components/inputs/BooleanInput.astro";
+
+import { getSettings } from "../util/importSettings.js";
+const settings = getSettings();
+---
+
+<html data-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="description" content="Astro description" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+  </head>
+  <Navbar />
+  <div class="flex flex-col items-center">
+    <form id="admin-form">
+      <!-- Map Settings to inputs -->
+      {
+        Object.keys(settings.collections).map((collectionKey) => {
+          const collection = settings.collections[collectionKey];
+          if (collection) {
+            return (
+              <div>
+                <h2 class="text-lg font-bold">{collection.label}</h2>
+                {Object.keys(collection.fields).map((fieldKey) => {
+                  const field = collection.fields[fieldKey];
+                  if (field) {
+                    let InputComponent;
+                    switch (field.type) {
+                      case "boolean":
+                        InputComponent = BooleanInput;
+                        break;
+                      case "select":
+                        InputComponent = SelectInput;
+                        break;
+                      case "string":
+                      default:
+                        InputComponent = StringInput;
+                    }
+                    return (
+                      <InputComponent
+                        label={field.label}
+                        name={field.name}
+                        required={field.required}
+                        type={field.type}
+                        options={field.options}
+                      />
+                    );
+                  }
+                  return null;
+                })}
+              </div>
+            );
+          }
+          return null;
+        })
+      }
+
+      <button class="btn btn-primary" type="submit">Submit</button>
+    </form>
+  </div>
+
+  <script>
+    import { initialize } from "../util/initialize.js";
+
+    initialize();
+
+    // Form Handling
+    document
+      .getElementById("admin-form")
+      .addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        const formData = new FormData(e.target);
+        const data = Object.fromEntries(formData.entries());
+
+        try {
+          const response = await fetch("/api/form", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(data),
+          });
+
+          const result = await response.json();
+          alert(result.message);
+        } catch (error) {
+          console.error(error);
+          alert("An error occurred");
+        }
+      });
+  </script>
+
+
+</html>

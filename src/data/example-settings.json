@@ -1,0 +1,53 @@
+{
+    "websiteName": "test",
+    "collections": {
+        "contactInfo": {
+            "name": "Contact Info",
+            "label": "Contact Info",
+            "fields": {
+                "phoneNumber": {
+                    "name": "Phone Number",
+                    "label": "Phone Number",
+                    "type": "string",
+                    "required": true
+                }
+            }
+        },
+        "socialMedia": {
+            "name": "Social Media",
+            "label": "Social Media",
+            "fields": {
+                "facebook": {
+                    "name": "Facebook",
+                    "label": "Facebook",
+                    "type": "string",
+                    "required": true
+                },
+                "instagram": {
+                    "name": "Instagram",
+                    "label": "Instagram",
+                    "type": "string",
+                    "required": true
+                }
+            }
+        },
+        "preferences": {
+            "name": "Preferences",
+            "label": "Preferences",
+            "fields": {
+                "language": {
+                    "name": "Language",
+                    "label": "Preferred Language",
+                    "type": "select",
+                    "required": true,
+                    "options": [
+                        "English",
+                        "Spanish",
+                        "French",
+                        "German"
+                    ]
+                }
+            }
+        }
+    }
+}

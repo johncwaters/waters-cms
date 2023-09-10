@@ -1,0 +1,18 @@
+---
+import type { field } from "../../util/cmsSettingsTypes.types.ts";
+interface Props extends field {}
+
+const { label, name, required, type, booleanValue, options = [] } = Astro.props;
+---
+
+<div class="form-control">
+  <label class="label cursor-pointer">
+    <span class="label-text">{label ?? name}</span>
+    <input
+      type="checkbox"
+      name={name}
+      class="toggle"
+      checked={booleanValue ?? false}
+    />
+  </label>
+</div>
