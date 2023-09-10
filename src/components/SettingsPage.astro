@@ -72,6 +72,12 @@ const settings = getSettings();
           const formData = new FormData(e.target);
           const data = Object.fromEntries(formData.entries());
 
+          // Handle if nothing was submitted
+          if (Object.keys(data).length === 0) {
+            alert("No changes to submit");
+            return;
+          }
+
           try {
             const response = await fetch("/api/form", {
               method: "POST",
