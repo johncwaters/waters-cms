@@ -1,22 +1,46 @@
 ---
+import { getSettings } from "../util/importSettings.js";
 
+const params = new URLSearchParams(Astro.url.search);
+const requestedCollectionName = params.get("collection");
+
+const settings = getSettings();
 ---
 
-<div class="drawer lg:drawer-open">
-  <input id="my-drawer-2" type="checkbox" class="drawer-toggle" />
-  <div class="drawer-content flex flex-col items-center m-8">
+<div class="drawer lg:drawer-open max-h-screen">
+  <input id="my-drawer" type="checkbox" class="drawer-toggle" />
+  <div class="drawer-content flex flex-col">
     <!-- Page content here -->
     <slot />
-    <label for="my-drawer-2" class="btn btn-primary drawer-button lg:hidden"
-      >Open drawer</label
-    >
   </div>
-  <div class="drawer-side">
-    <label for="my-drawer-2" class="drawer-overlay"></label>
+  <div class="drawer-side overflow-scroll">
+    <label for="my-drawer" class="drawer-overlay"></label>
     <ul class="menu p-4 w-80 min-h-full bg-base-200 text-base-content">
       <!-- Sidebar content here -->
-      <li><a>Sidebar Item 1</a></li>
-      <li><a>Sidebar Item 2</a></li>
+      {
+        Object.keys(settings.collections).map((collectionKey) => {
+          const collection = settings.collections[collectionKey];
+          if (collection) {
+            return (
+              <li>
+                <a
+                  href={`/admin?collection=${encodeURIComponent(
+                    collection.name
+                  )}`}
+                  class={`text-lg ${
+                    requestedCollectionName === collection.name
+                      ? "bg-primary"
+                      : ""
+                  }`}
+                >
+                  {collection.label}
+                </a>
+              </li>
+            );
+          }
+          return null;
+        })
+      }
     </ul>
   </div>
 </div>

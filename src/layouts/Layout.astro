@@ -1,7 +1,10 @@
 ---
 import "../input.css";
 import "../output.css";
+import Navbar from "../components/Navbar.astro";
 import Sidebar from "../components/Sidebar.astro";
+
+import { ViewTransitions } from "astro:transitions";
 ---
 
 <html data-theme="dark">
@@ -11,10 +14,14 @@ import Sidebar from "../components/Sidebar.astro";
     <meta name="viewport" content="width=device-width" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
+    <ViewTransitions />
   </head>
-  <body>
+  <div class="overflow-hidden max-h-screen">
+    <Navbar />
     <Sidebar>
-      <slot />
+      <div class="max-h-screen">
+        <slot />
+      </div>
     </Sidebar>
-  </body>
+  </div>
 </html>
