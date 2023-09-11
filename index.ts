@@ -35,10 +35,17 @@ export default function watersCmsIntegration(
           });
         }
 
-        // Add API Endpoint
+        // Add Form API Route
         injectRoute({
           pattern: "/api/form",
           entryPoint: "./node_modules/waters-cms/src/pages/api/form.ts",
+        });
+
+        // Add Auth API Route
+        injectRoute({
+          pattern: "/auth/waters-cms-authorize",
+          entryPoint:
+            "./node_modules/waters-cms/src/pages/waters-cms-authorize.astro",
         });
       },
     },

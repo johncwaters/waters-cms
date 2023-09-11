@@ -1,13 +1,9 @@
 import type { APIRoute } from "astro";
-import { getSettings } from "../../util/importSettings";
 import { validateNewSettings } from "../../util/validateNewSettings";
 
 export const POST: APIRoute = async ({ request }) => {
   if (request.headers.get("Content-Type") === "application/json") {
     try {
-      // Load the current settings
-      const settings = getSettings();
-
       // Parse the incoming data
       const body = (await request.json()) as Record<string, any>;
 
