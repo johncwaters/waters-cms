@@ -1,26 +1,19 @@
 import type { AstroIntegration } from "astro";
 
-//export { default as WatersCmsAdminPage } from "./src/pages/admin.astro";
-
-type WatersCMSOptions = {
-  example: boolean;
-};
-
-export default function watersCmsIntegration(
-  options?: WatersCMSOptions
-): AstroIntegration {
-  const exampleResult = options?.example;
-
+export default function watersCmsIntegration(): AstroIntegration {
   return {
     name: "waters-cms",
     hooks: {
       "astro:config:setup": async ({
         command,
-        config,
-        updateConfig,
-        injectScript,
+        config: astroConfig,
         injectRoute,
       }) => {
+        if (astroConfig.output === "static")
+          throw new Error(
+            'auth-astro requires server-side rendering. Please set output to "server" & install an adapter. See https://docs.astro.build/en/guides/deploy/#adding-an-adapter-for-ssr'
+          );
+
         if (command === "dev") {
           injectRoute({
             pattern: "/admin",
