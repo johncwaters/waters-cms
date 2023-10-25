@@ -1,9 +1,4 @@
-import fs from "fs";
-import type {
-  cmsSettings,
-  collection,
-  field,
-} from "./cmsSettingsTypes.types.ts";
+import type { cmsSettings, collection, field } from "./cmsSettingsTypes.types";
 
 /**
  * Asserts the given condition and throws an error with the given message if the condition is falsy.
@@ -11,7 +6,7 @@ import type {
  * @param condition - The condition to assert.
  * @param errorMsg - The error message to throw if the condition is falsy.
  */
-function assert(condition: any, errorMsg: string): asserts condition {
+export function assert(condition: any, errorMsg: string): asserts condition {
   if (!condition) {
     throw new Error(errorMsg);
   }
@@ -19,7 +14,6 @@ function assert(condition: any, errorMsg: string): asserts condition {
 
 /**
  * Validates the structure of the settings data against the cmsSettings interface.
- * TODO: Move validation to seperate file since it is used in multiple places
  *
  * @param settings - The settings data to validate.
  * @returns True if the settings data is valid, otherwise throws an error.
@@ -112,18 +106,4 @@ function validateField(field: any): field is field {
   }
 
   return true;
-}
-/**
- * Reads and validates the settings data from the JSON file.
- *
- * @returns The validated settings data.
- * @throws Will throw an error if the settings data is invalid.
- */
-export function getSettings(): cmsSettings {
-  const data = fs.readFileSync("./waters-cms-settings.json", "utf-8");
-  const parsedData = JSON.parse(data);
-
-  assert(validateSettings(parsedData), "Invalid settings data");
-
-  return parsedData as cmsSettings;
 }

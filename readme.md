@@ -47,6 +47,25 @@ Here is an example structure:
 }
 ```
 
+## Set-up Authentication
+
+Authentication currently only works through Google Oauth2. Provide your client_id and client_secret in your websites .env file.
+
+Also set-up a Github fine-grained personal access token with Content Read/Write permission for the target repo.
+
+```
+SECRET_GITHUB_ACCESS_TOKEN = "somethng"
+
+SECRET_GOOGLE_CLIENT_ID = "my-client-id"
+SECRET_GOOGLE_CLIENT_SECRET = "my-client-secret"
+```
+
+Waters-CMS does not track users or sessions in a database, instead only allowing a few whitelisted users access to the page. Provide a comma delimited list of users to provide access in your .env file.
+
+```
+WATERS_CMS_USERS = "myemail@gmail.com, clientemail@gmail.com, 2ndclient@gmail.com"
+```
+
 ## How It Works
 
 When installed as an Astro integration the package injects a Dashboard to `.com/admin` that the website owner can visit to adjust available settings.

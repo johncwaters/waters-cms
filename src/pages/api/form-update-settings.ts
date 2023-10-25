@@ -1,6 +1,8 @@
 import type { APIRoute } from "astro";
-import { validateNewSettings } from "../../util/validateNewSettings";
+import { updateSettings } from "../../util/settings/updateSettings";
+import { githubUpdateSettings } from "../../util/github/githubUpdateSettings";
 
+// API Route to update waters-cms-settings.json
 export const POST: APIRoute = async ({ request }) => {
   if (request.headers.get("Content-Type") === "application/json") {
     try {
@@ -8,20 +10,23 @@ export const POST: APIRoute = async ({ request }) => {
       const body = (await request.json()) as Record<string, any>;
 
       // Validate the incoming data
-      const result = validateNewSettings(body);
+      const result = updateSettings(body);
 
-      // DEBUG: Return the response object as JSON
-      // TODO: Change to update Github file and post a new version of the site
+      // Save updated settings on GitHub
+      githubUpdateSettings(result);
+
+      // TODO: Trigger the cache to reset
       return new Response(JSON.stringify(result), {
         status: 200,
       });
     } catch (error) {
-      console.log(
+      // Handle JSON parsing errors
+      // TODO: Pass back JSON validation error
+      console.error(
         "🚀 ~ file: form.ts:31 ~ constPOST:APIRoute= ~ error:",
         error
       );
-      // Handle JSON parsing errors
-      // TODO: Pass back JSON validation error
+
       return new Response(JSON.stringify({ message: "Invalid JSON" }), {
         status: 400,
       });

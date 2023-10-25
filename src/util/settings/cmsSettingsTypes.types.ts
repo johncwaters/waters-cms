@@ -1,4 +1,3 @@
-// Example settings interface
 export interface cmsSettings {
   websiteName: string;
   collections: {

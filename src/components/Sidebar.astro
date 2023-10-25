@@ -1,10 +1,10 @@
 ---
-import { getSettings } from "../util/importSettings.js";
+import { getSettings } from "../util/settings/getSettings.js";
 
 const params = new URLSearchParams(Astro.url.search);
 const requestedCollectionName = params.get("collection");
 
-const settings = getSettings();
+const settings = await getSettings();
 ---
 
 <div class="drawer lg:drawer-open max-h-screen">
@@ -24,7 +24,7 @@ const settings = getSettings();
             return (
               <li>
                 <a
-                  href={`/admin?collection=${encodeURIComponent(
+                  href={`/waters-cms/admin?collection=${encodeURIComponent(
                     collection.name
                   )}`}
                   class={`text-lg ${

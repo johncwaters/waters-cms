@@ -1,6 +1,13 @@
-import { getSettings, validateSettings } from "./importSettings.js"; // Adjust the path as necessary
+import { cmsSettings } from "./cmsSettingsTypes.types.js";
+import { getSettings } from "./getSettings.js";
+import { validateSettings } from "./validate.js";
 
-export function validateNewSettings(data: Record<string, any>): string {
+/**
+ * Updates old settings with new settings, validate, and return updated settings
+ *
+ * @data The new settings data.
+ */
+export function updateSettings(data: Record<string, any>): cmsSettings {
   // Step 1 & 2: Get the current settings and create a deep copy
   const currentSettings = getSettings();
   const updatedSettings = JSON.parse(JSON.stringify(currentSettings));
@@ -26,13 +33,6 @@ export function validateNewSettings(data: Record<string, any>): string {
     throw error;
   }
 
-  // Step 5: If validation succeeds, apply the changes to the actual data
-  // Here, save the updatedSettings back to your data store (e.g., a JSON file)
-  //   fs.writeFileSync(
-  //     "./waters-cms-settings.json",
-  //     JSON.stringify(updatedSettings, null, 2)
-  //   );
-
-  // If everything went well, you can return a success message
-  return "Settings updated successfully";
+  // return valid updated settings
+  return updatedSettings as cmsSettings;
 }

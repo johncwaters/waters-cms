@@ -11,34 +11,59 @@ export default function watersCmsIntegration(): AstroIntegration {
       }) => {
         if (astroConfig.output === "static")
           throw new Error(
-            'auth-astro requires server-side rendering. Please set output to "server" & install an adapter. See https://docs.astro.build/en/guides/deploy/#adding-an-adapter-for-ssr'
+            'Waters-Cms requires server-side rendering. Please set output to "server" & install an adapter. See https://docs.astro.build/en/guides/deploy/#adding-an-adapter-for-ssr'
           );
 
-        if (command === "dev") {
-          injectRoute({
-            pattern: "/admin",
-            entryPoint: "./node_modules/waters-cms/src/pages/admin.astro",
-          });
-          // prod
-        } else {
-          injectRoute({
-            pattern: "/admin",
-            entryPoint: "./node_modules/waters-cms/src/pages/admin.astro",
-            //entryPoint: "waters-cms/src/pages/admin.astro",
-          });
-        }
-
-        // Add Form API Route
+        // Add Waters-CMS Admin Page
         injectRoute({
-          pattern: "/api/form",
-          entryPoint: "./node_modules/waters-cms/src/pages/api/form.ts",
+          pattern: "/waters-cms/admin",
+          entryPoint: "./node_modules/waters-cms/src/pages/admin.astro",
         });
 
-        // Add Auth API Route
+        // Add Form Update Settings API Route
         injectRoute({
-          pattern: "/auth/waters-cms-authorize",
+          pattern: "/waters-cms/api/form-update-settings",
           entryPoint:
-            "./node_modules/waters-cms/src/pages/waters-cms-authorize.astro",
+            "./node_modules/waters-cms/src/pages/api/form-update-settings.ts",
+        });
+
+        // Add Form Update Collection API Route
+        injectRoute({
+          pattern: "/waters-cms/api/form-update-collection",
+          entryPoint:
+            "./node_modules/waters-cms/src/pages/api/form-update-collection.ts",
+        });
+
+        // Add Waters-CMS Initialize Route
+        injectRoute({
+          pattern: "/waters-cms/api/initialize",
+          entryPoint: "./node_modules/waters-cms/src/pages/api/initialize.ts",
+        });
+
+        // * Auth API Routes * //
+        // Login Page
+        injectRoute({
+          pattern: "/waters-cms/auth/login",
+          entryPoint:
+            "./node_modules/waters-cms/src/components/auth/Login.astro",
+        });
+
+        // API Login Endpoint
+        injectRoute({
+          pattern: "/waters-cms/api/auth/login",
+          entryPoint: "./node_modules/waters-cms/src/pages/api/login.ts",
+        });
+
+        // API Logout Endpoint
+        injectRoute({
+          pattern: "/waters-cms/api/auth/logout",
+          entryPoint: "./node_modules/waters-cms/src/pages/api/logout.ts",
+        });
+
+        // API Callback Endpoint
+        injectRoute({
+          pattern: "/waters-cms/api/auth/callback",
+          entryPoint: "./node_modules/waters-cms/src/pages/api/callback.ts",
         });
       },
     },

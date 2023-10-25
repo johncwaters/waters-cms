@@ -27,6 +27,7 @@
     "typescript": "^5.2.2"
   },
   "peerDependencies": {
-    "astro": "^3.0.12"
+    "astro": "^3.0.12",
+    "cookie-parser": "^1.4.6"
   }
 }

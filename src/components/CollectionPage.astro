@@ -1,13 +1,13 @@
 ---
-import StringInput from "../components/inputs/StringInput.astro";
-import SelectInput from "../components/inputs/SelectInput.astro";
-import BooleanInput from "../components/inputs/BooleanInput.astro";
+import StringInput from "./inputs/StringInput.astro";
+import SelectInput from "./inputs/SelectInput.astro";
+import BooleanInput from "./inputs/BooleanInput.astro";
 
 const params = new URLSearchParams(Astro.url.search);
 const requestedCollectionName = params.get("collection");
 
-import { getSettings } from "../util/importSettings";
-const settings = getSettings();
+import { getSettings } from "../util/settings/getSettings";
+const settings = await getSettings();
 ---
 
 <section>
@@ -19,7 +19,9 @@ const settings = getSettings();
         if (collection && collection.name === requestedCollectionName) {
           return (
             <div class="">
-              <h2 class="text-lg font-bold">{collection.label}</h2>
+              <h2 id="label" class="text-lg font-bold">
+                {collection.label}
+              </h2>
               {Object.keys(collection.fields).map((fieldKey) => {
                 const field = collection.fields[fieldKey];
                 if (field) {
@@ -58,42 +60,40 @@ const settings = getSettings();
     <button class="btn btn-primary mt-6" type="submit" data-astro-reload
       >Submit</button
     >
-    <script>
-      import { initialize } from "../util/initialize.js";
-
-      initialize();
-
-      // Form Handling
-      document
-        .getElementById("admin-form")
-        .addEventListener("submit", async (e) => {
-          e.preventDefault();
-
-          const formData = new FormData(e.target);
-          const data = Object.fromEntries(formData.entries());
-
-          // Handle if nothing was submitted
-          if (Object.keys(data).length === 0) {
-            alert("No changes to submit");
-            return;
-          }
-
-          try {
-            const response = await fetch("/api/form", {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify(data),
-            });
-
-            const result = await response.json();
-            alert(result.message);
-          } catch (error) {
-            console.error(error);
-            alert("An error occurred");
-          }
-        });
-    </script>
   </form>
 </section>
+
+<script>
+  import { initialize } from "../util/initialize.js";
+
+  await initialize();
+
+  // Form Handling - Update collection api
+  document
+    .getElementById("admin-form")!
+    .addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const formName = document.getElementById("label")!.innerHTML;
+
+      const formData = new FormData(e.target as HTMLFormElement);
+      const data = Object.fromEntries(formData.entries());
+
+      const updateRequest = { collection: formName, data: data };
+
+      try {
+        const response = await fetch("/waters-cms/api/form-update-collection", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(updateRequest),
+        });
+
+        // TODO: Update to show changes were successful
+        const result = await response.json();
+      } catch (error) {
+        console.error(error);
+        alert("Unable to save changes.");
+      }
+    });
+</script>

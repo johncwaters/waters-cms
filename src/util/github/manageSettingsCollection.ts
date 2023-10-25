@@ -1,0 +1,7 @@
+/*
+Manage collections as individual files with fields listed inside
+
+CREATE
+DELETE
+UPDATE
+*/
