@@ -2,18 +2,19 @@
 import type { field } from "../../util/settings/cmsSettingsTypes.types.ts";
 interface Props extends field {}
 
-const { label, name, required, type } = Astro.props;
+const { label, required, value } = Astro.props;
 ---
 
 <div class="form-control mb-4">
   <label class="label">
-    <span class="label-text">{label ?? name}</span>
+    <span class="label-text">{label}</span>
   </label>
   <input
     type="text"
     placeholder="Type here"
-    name={name}
+    name={label}
     required={required}
     class="input input-bordered w-full"
+    value={value}
   />
 </div>

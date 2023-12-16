@@ -1,10 +1,10 @@
 ---
-import { getSettings } from "../util/settings/getSettings.js";
+import { getCollections } from "../util/settings/getCollections.js";
 
 const params = new URLSearchParams(Astro.url.search);
-const requestedCollectionName = params.get("collection");
+const requestedCollectionLabel = params.get("collection");
 
-const settings = await getSettings();
+const settings = await getCollections();
 ---
 
 <div class="drawer lg:drawer-open max-h-screen">
@@ -17,6 +17,18 @@ const settings = await getSettings();
     <label for="my-drawer" class="drawer-overlay"></label>
     <ul class="menu p-4 w-80 min-h-full bg-base-200 text-base-content">
       <!-- Sidebar content here -->
+      <li>
+        <a
+          href="/waters-cms/admin"
+          class=`text-lg ${
+                     requestedCollectionLabel === null
+                      ? "bg-primary"
+                      : ""
+                  }`
+        >
+          Home</a
+        >
+      </li>
       {
         Object.keys(settings.collections).map((collectionKey) => {
           const collection = settings.collections[collectionKey];
@@ -25,10 +37,10 @@ const settings = await getSettings();
               <li>
                 <a
                   href={`/waters-cms/admin?collection=${encodeURIComponent(
-                    collection.name
+                    collection.label
                   )}`}
                   class={`text-lg ${
-                    requestedCollectionName === collection.name
+                    requestedCollectionLabel === collection.label
                       ? "bg-primary"
                       : ""
                   }`}

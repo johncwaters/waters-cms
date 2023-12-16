@@ -25,6 +25,14 @@ export function validateSettings(settings: any): settings is cmsSettings {
     "websiteName must be a string"
   );
   assert(
+    typeof settings.websiteUrl === "string",
+    "websiteName must be a string"
+  );
+  assert(
+    typeof settings.websiteLogoUrl === "string",
+    "websiteName must be a string"
+  );
+  assert(
     settings.collections && typeof settings.collections === "object",
     "collections must be an object"
   );
@@ -47,14 +55,12 @@ export function validateSettings(settings: any): settings is cmsSettings {
  */
 function validateCollection(collection: any): collection is collection {
   assert(collection, "Collection data is undefined or null");
-  assert(
-    typeof collection.name === "string",
-    "Collection name must be a string"
-  );
+
   assert(
     typeof collection.label === "string",
     "Collection label must be a string"
   );
+
   assert(
     collection.fields && typeof collection.fields === "object",
     "Collection fields must be an object"
@@ -78,7 +84,6 @@ function validateCollection(collection: any): collection is collection {
  */
 function validateField(field: any): field is field {
   assert(field, "Field data is undefined or null");
-  assert(typeof field.name === "string", "Field name must be a string");
   assert(typeof field.label === "string", "Field label must be a string");
   assert(
     ["string", "boolean", "select"].includes(field.type),
@@ -104,6 +109,8 @@ function validateField(field: any): field is field {
       "Field booleanValue must be a boolean"
     );
   }
+
+  assert(typeof field.value === "string", "Field label must be a string");
 
   return true;
 }

@@ -1,0 +1,29 @@
+---
+import StringInput from "./StringInput.astro";
+import SelectInput from "./SelectInput.astro";
+import BooleanInput from "./BooleanInput.astro";
+
+import type { field } from "../../util/settings/cmsSettingsTypes.types.ts";
+interface Props extends field {}
+
+// Set up a generic input that automatically detects the type and fills in the values
+
+
+const { label, name, required, type, options = [] } = Astro.props;
+
+
+ if (type) {
+                  let InputComponent;
+                  switch (type) {
+                    case "boolean":
+                      InputComponent = BooleanInput;
+                      break;
+                    case "select":
+                      InputComponent = SelectInput;
+                      break;
+                    case "string":
+                    default:
+                      InputComponent = StringInput;
+                  }
+---
+

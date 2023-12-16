@@ -4,10 +4,10 @@ import SelectInput from "./inputs/SelectInput.astro";
 import BooleanInput from "./inputs/BooleanInput.astro";
 
 const params = new URLSearchParams(Astro.url.search);
-const requestedCollectionName = params.get("collection");
+const requestedCollectionLabel = params.get("collection");
 
-import { getSettings } from "../util/settings/getSettings";
-const settings = await getSettings();
+import { getCollections } from "../util/settings/getCollections";
+const settings = await getCollections();
 ---
 
 <section>
@@ -16,7 +16,7 @@ const settings = await getSettings();
     {
       Object.keys(settings.collections).map((collectionKey) => {
         const collection = settings.collections[collectionKey];
-        if (collection && collection.name === requestedCollectionName) {
+        if (collection && collection.label === requestedCollectionLabel) {
           return (
             <div class="">
               <h2 id="label" class="text-lg font-bold">
@@ -40,10 +40,10 @@ const settings = await getSettings();
                   return (
                     <InputComponent
                       label={field.label}
-                      name={field.name}
                       required={field.required}
                       type={field.type}
                       options={field.options}
+                      value={field.value}
                     />
                   );
                 }
@@ -78,8 +78,12 @@ const settings = await getSettings();
       const formData = new FormData(e.target as HTMLFormElement);
       const data = Object.fromEntries(formData.entries());
 
-      const updateRequest = { collection: formName, data: data };
+      const updateRequest = { formLabel: formName, data: data };
 
+      console.log(
+        "🚀 ~ file: CollectionPage.astro:83 ~ .addEventListener ~ updateRequest:",
+        updateRequest
+      );
       try {
         const response = await fetch("/waters-cms/api/form-update-collection", {
           method: "POST",
@@ -91,6 +95,10 @@ const settings = await getSettings();
 
         // TODO: Update to show changes were successful
         const result = await response.json();
+        console.log(
+          "🚀 ~ file: CollectionPage.astro:94 ~ .addEventListener ~ result:",
+          result
+        );
       } catch (error) {
         console.error(error);
         alert("Unable to save changes.");

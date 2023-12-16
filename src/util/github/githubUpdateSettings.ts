@@ -16,7 +16,7 @@ export async function githubUpdateSettings(
   try {
     // Step 1: Fetch the current file content and SHA
     const getFileResponse = await fetch(
-      `https://api.github.com/repos/johncwaters/waters-cms-test/contents/waters-cms-settings.json`,
+      `https://api.github.com/repos/johncwaters/waters-cms-test/contents/waters-cms-collections.json`,
       {
         headers: {
           Authorization: `token ${import.meta.env.SECRET_GITHUB_ACCESS_TOKEN}`,
@@ -31,7 +31,7 @@ export async function githubUpdateSettings(
     // Step 2: Update the file with new JSON data
     const updateFileResponse = await fetch(
       // TODO: Update to use settings repo and username
-      `https://api.github.com/repos/johncwaters/waters-cms-test/contents/waters-cms-settings.json`,
+      `https://api.github.com/repos/johncwaters/waters-cms-test/contents/waters-cms-collections.json`,
       {
         method: "PUT",
         headers: {

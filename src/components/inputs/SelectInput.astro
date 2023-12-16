@@ -2,15 +2,20 @@
 import type { field } from "../../util/settings/cmsSettingsTypes.types.ts";
 interface Props extends field {}
 
-const { label, name, required, type, options = [] } = Astro.props;
+const { label, required, options = [], value } = Astro.props;
 ---
 
 <div class="form-control w-full max-w-xs">
   <label class="label">
-    <span class="label-text">{label ?? name}</span>
+    <span class="label-text">{label}</span>
   </label>
-  <select required={required} name={name} class="select select-bordered">
-    <option disabled selected>Pick one</option>
-    {options.map((option, index) => <option value={option}>{option}</option>)}
+  <select required={required} name={label} class="select select-bordered">
+    {
+      options.map((option, index) => (
+        <option value={option} selected={option === value}>
+          {option}
+        </option>
+      ))
+    }
   </select>
 </div>

@@ -2,17 +2,18 @@
 import type { field } from "../../util/settings/cmsSettingsTypes.types.ts";
 interface Props extends field {}
 
-const { label, name, required, type, booleanValue, options = [] } = Astro.props;
+const { label, required, value } = Astro.props;
 ---
 
 <div class="form-control">
   <label class="label cursor-pointer">
     <span class="label-text">{label ?? name}</span>
     <input
+      required={required}
       type="checkbox"
-      name={name}
+      name={label}
       class="toggle"
-      checked={booleanValue ?? false}
+      checked={value ?? false}
     />
   </label>
 </div>

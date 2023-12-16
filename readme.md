@@ -23,7 +23,7 @@ export default defineConfig({
 
 ## Configuration
 
-Configure your CMS by updating the waters-cms-settings.json file with your website settings. The JSON file should adhere to the structure defined in the cmsSettingsTypes.types.ts file.
+Configure your CMS by updating the waters-cms-collections.json file with your website settings. The JSON file should adhere to the structure defined in the cmsSettingsTypes.types.ts file.
 
 Here is an example structure:
 

@@ -20,24 +20,11 @@ export default function watersCmsIntegration(): AstroIntegration {
           entryPoint: "./node_modules/waters-cms/src/pages/admin.astro",
         });
 
-        // Add Form Update Settings API Route
-        injectRoute({
-          pattern: "/waters-cms/api/form-update-settings",
-          entryPoint:
-            "./node_modules/waters-cms/src/pages/api/form-update-settings.ts",
-        });
-
         // Add Form Update Collection API Route
         injectRoute({
           pattern: "/waters-cms/api/form-update-collection",
           entryPoint:
             "./node_modules/waters-cms/src/pages/api/form-update-collection.ts",
-        });
-
-        // Add Waters-CMS Initialize Route
-        injectRoute({
-          pattern: "/waters-cms/api/initialize",
-          entryPoint: "./node_modules/waters-cms/src/pages/api/initialize.ts",
         });
 
         // * Auth API Routes * //

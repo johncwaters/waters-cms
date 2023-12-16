@@ -1,0 +1,19 @@
+---
+import UpdateSettingsPage from "../components/UpdateSettingsPage.astro";
+import Layout from "../layouts/Layout.astro";
+
+const sessionCookie = Astro.cookies.get("waters-cms-session");
+
+const userEmail = sessionCookie?.value;
+if (!userEmail) {
+  return Astro.redirect("/waters-cms/auth/login");
+}
+const allowedEmails = import.meta.env.WATERS_CMS_USERS.split(",");
+if (!allowedEmails.includes(userEmail)) {
+  return Astro.redirect("/waters-cms/auth/login");
+}
+---
+
+<Layout>
+  <UpdateSettingsPage />
+</Layout>
